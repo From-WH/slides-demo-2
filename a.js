@@ -1,6 +1,6 @@
 let n
 初始化()
-setInterval(()=>{                
+times = setInterval(()=>{                
     makeLeave(getImages(n))           //从视口离开
     .one('transitionend',(e)=>{
         makeEnter($(e.currentTarget)) //跑到最后面
@@ -8,6 +8,22 @@ setInterval(()=>{
     makeCurrent(getImages(n + 1))     //跑进视口
     n+=1
 },1500)
+
+
+// 鼠标进入暂停，出来恢复
+$('.window').on('mouseenter',()=>{
+    clearInterval(times)
+})
+$('.window').on('mouseleave', () => {
+    times = setInterval(() => {
+        makeLeave(getImages(n))           
+            .one('transitionend', (e) => {
+                makeEnter($(e.currentTarget)) 
+            })
+        makeCurrent(getImages(n + 1))     
+        n += 1
+    }, 1500)
+})
 
 
 // 下面不用看哦
